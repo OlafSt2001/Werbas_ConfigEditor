@@ -38,14 +38,14 @@ namespace Werbas_ConfigEditor
             this.cbServerPfad = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnNewClient = new System.Windows.Forms.Button();
             this.cbTSClient = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.btnSelectClientPath = new System.Windows.Forms.Button();
+            this.cbClientPfad = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -137,10 +137,10 @@ namespace Werbas_ConfigEditor
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.btnNewClient);
             this.tabPage2.Controls.Add(this.cbTSClient);
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.comboBox2);
+            this.tabPage2.Controls.Add(this.btnSelectClientPath);
+            this.tabPage2.Controls.Add(this.cbClientPfad);
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
@@ -149,6 +149,16 @@ namespace Werbas_ConfigEditor
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Clients";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnNewClient
+            // 
+            this.btnNewClient.Location = new System.Drawing.Point(47, 98);
+            this.btnNewClient.Name = "btnNewClient";
+            this.btnNewClient.Size = new System.Drawing.Size(111, 23);
+            this.btnNewClient.TabIndex = 11;
+            this.btnNewClient.Text = "Neuer Client";
+            this.btnNewClient.UseVisualStyleBackColor = true;
+            this.btnNewClient.Click += new System.EventHandler(this.btnNewClient_Click);
             // 
             // cbTSClient
             // 
@@ -159,24 +169,27 @@ namespace Werbas_ConfigEditor
             this.cbTSClient.TabIndex = 10;
             this.cbTSClient.Text = "TSClient";
             this.cbTSClient.UseVisualStyleBackColor = true;
+            this.cbTSClient.Click += new System.EventHandler(this.cbTSClient_Click);
             // 
-            // button2
+            // btnSelectClientPath
             // 
-            this.button2.Location = new System.Drawing.Point(432, 19);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(25, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "...";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSelectClientPath.Location = new System.Drawing.Point(432, 19);
+            this.btnSelectClientPath.Name = "btnSelectClientPath";
+            this.btnSelectClientPath.Size = new System.Drawing.Size(25, 23);
+            this.btnSelectClientPath.TabIndex = 9;
+            this.btnSelectClientPath.Text = "...";
+            this.btnSelectClientPath.UseVisualStyleBackColor = true;
+            this.btnSelectClientPath.Click += new System.EventHandler(this.btnSelectClientPath_Click);
             // 
-            // comboBox2
+            // cbClientPfad
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(47, 19);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(372, 23);
-            this.comboBox2.TabIndex = 6;
+            this.cbClientPfad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbClientPfad.FormattingEnabled = true;
+            this.cbClientPfad.Location = new System.Drawing.Point(47, 19);
+            this.cbClientPfad.Name = "cbClientPfad";
+            this.cbClientPfad.Size = new System.Drawing.Size(372, 23);
+            this.cbClientPfad.TabIndex = 6;
+            this.cbClientPfad.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -219,15 +232,6 @@ namespace Werbas_ConfigEditor
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(47, 98);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Neuer Client";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -262,11 +266,11 @@ namespace Werbas_ConfigEditor
         private System.Windows.Forms.ComboBox cbServerPfad;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbTSClient;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button btnSelectClientPath;
+        private System.Windows.Forms.ComboBox cbClientPfad;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnNewServer;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnNewClient;
     }
 }
 

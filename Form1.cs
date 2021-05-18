@@ -34,7 +34,14 @@ namespace Werbas_ConfigEditor
 
         private void FillClientControls()
         {
-            //Empty for now
+            cbClientPfad.Items.Clear();
+            cbTSClient.Checked = false;
+
+            foreach (Client c in conf.Clients)
+                cbClientPfad.Items.Add(c.Path);
+            cbClientPfad.SelectedIndex = (cbClientPfad.Items.Count > 0 ? 0 : -1);
+            btnSelectClientPath.Enabled = (cbClientPfad.SelectedIndex != -1);
+            cbTSClient.Enabled = (cbClientPfad.SelectedIndex != -1);
         }
         #endregion
 
@@ -46,21 +53,10 @@ namespace Werbas_ConfigEditor
         private void ReadConfig()
         {
             //Wenn wir noch keine Config haben, machen wir eine leere und raus hier
-            if (!File.Exists("config.xml"))
-            {
+            conf = ConfigTools.LoadConfig("config.xml");
+            if (conf == null)
                 conf = new();
-                hasChanges = false;
-                return;
-            }
-
-            //Ansonsten bequem per Deserializer einlesen
-            XmlSerializer serializer = new(typeof(Config));
-
-            using (FileStream fs = new("config.xml", FileMode.Open))
-            {
-                conf = (Config)serializer.Deserialize(fs);
-                hasChanges = false;
-            }
+            hasChanges = false;
         }
 
         /// <summary>
@@ -68,13 +64,7 @@ namespace Werbas_ConfigEditor
         /// </summary>
         private void WriteConfig()
         {
-            XmlSerializer serializer = new(typeof(Config));
-
-            using (TextWriter tw = new StreamWriter("config.xml"))
-            {
-                serializer.Serialize(tw, conf);
-                tw.Close();
-            }
+            ConfigTools.SaveConfig(conf, "config.xml");
             hasChanges = false;
         }
         #endregion
@@ -133,7 +123,7 @@ namespace Werbas_ConfigEditor
             if (dr != DialogResult.OK)
                 return;
 
-            Server s = new Server(fbd.SelectedPath, string.Empty);
+            Server s = new(fbd.SelectedPath, string.Empty);
             conf.Servers.Add(s);
             FillServerControls();
             cbServerPfad.SelectedIndex = conf.Servers.IndexOf(s);
@@ -184,7 +174,7 @@ namespace Werbas_ConfigEditor
         }
         #endregion
 
-        #region Utility-Funcs für Server-Tabsheet
+        #region Utility-Funcs für Server-und Client-Tabsheet
 
         //Ich weiß, ich habe hier etliches an dupliziertem Code produziert, das ließe sich
         //noch hübscher und generalisierter machen. Aber erstmal muss es funktionieren,
@@ -196,8 +186,76 @@ namespace Werbas_ConfigEditor
 
             return conf.Servers[newIndex];
         }
+
+        private Client GetSelectedClient()
+        {
+            int newIndex = cbClientPfad.SelectedIndex;
+
+            return conf.Clients[newIndex];
+        }
         #endregion
 
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Client c = GetSelectedClient();
+            cbTSClient.Checked = c.TSClient;
+
+        }
+
+        private void btnSelectClientPath_Click(object sender, EventArgs e)
+        {
+            Client c = GetSelectedClient();
+
+            FolderBrowserDialog fbd = new()
+            {
+                Description = "Pfad für Client",
+                SelectedPath = c.Path
+            };
+
+            DialogResult dr = fbd.ShowDialog();
+            if (dr != DialogResult.OK)
+                return;
+
+            if (!c.Path.Equals(fbd.SelectedPath))
+            {
+                c.Path = fbd.SelectedPath;
+                FillClientControls();
+                cbClientPfad.SelectedIndex = conf.Clients.IndexOf(c);
+                hasChanges = true;
+            }
+
+
+        }
+
+        private void cbTSClient_Click(object sender, EventArgs e)
+        {
+            Client c = GetSelectedClient();
+
+            if (!c.TSClient  == cbTSClient.Checked)
+            {
+                c.TSClient = cbTSClient.Checked;
+                hasChanges = true;
+            }
+        }
+
+        private void btnNewClient_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new()
+            {
+                Description = "Pfad für Client",
+                SelectedPath = @"C:\"
+            };
+
+            DialogResult dr = fbd.ShowDialog();
+            if (dr != DialogResult.OK)
+                return;
+
+            Client c = new(false, fbd.SelectedPath);
+            conf.Clients.Add(c);
+            FillClientControls();
+            cbClientPfad.SelectedIndex = conf.Clients.IndexOf(c);
+            hasChanges = true;
+        }
     }
 
 }
