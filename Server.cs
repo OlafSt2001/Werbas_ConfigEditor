@@ -17,7 +17,7 @@ namespace Werbas_ConfigEditor
     public class Server
     {
         [XmlAttribute]
-        public string Path { get; set; }
+        public string Path { get ; set; }
         public string ConnectionString { get; set; }
         
         public Server()
